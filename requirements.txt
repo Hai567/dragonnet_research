@@ -1,0 +1,10 @@
+numpy
+pandas
+torch
+scikit-learn
+matplotlib
+seaborn
+scikit-uplift
+causalml
+optuna
+torch --index-url https://download.pytorch.org/whl/cu128
