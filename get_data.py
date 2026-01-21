@@ -124,8 +124,7 @@ def get_synth_6_trt():
 
 def get_hillstom():
     alias = 'hillstrom'
-    data = datasets.fetch_hillstrom()
-    data, target, treatment = data['data'], data['target'], data['treatment']
+    data, target, treatment = datasets.fetch_hillstrom(target_col='visit', return_X_y_t=True)
 
     data['history_segment'] = data['history_segment'].str.slice(0, 1).astype(int)
     for col in ['zip_code', 'channel']:
