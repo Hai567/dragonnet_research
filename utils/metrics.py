@@ -2,11 +2,15 @@ import numpy as np
 from sklearn.metrics import auc
 
 def qini_score(y_true, uplift_score, treatment):
-    """
-    Hàm tính Qini Coefficient (Chỉ số đánh giá hiệu quả Uplift).
-    Giá trị càng cao càng tốt.
-    """
-    # 1. Sắp xếp khách hàng theo điểm Uplift giảm dần (Ưu tiên người tiềm năng nhất)
+    '''
+    returns:
+    
+        area: Diện tích dưới đường Qini Curve
+        normalized_area: Diện tích chuẩn hóa (trừ đi diện tích đường ngẫu nhiên)
+        x_axis: Trục x của Qini Curve
+        curve: Giá trị Qini Curve tại các điểm trên trục x
+    '''
+    # 1. Sắp xếp khách hàng theo điểm Uplift giảm dần
     order = np.argsort(uplift_score)[::-1]
     y_true = y_true[order]
     treatment = treatment[order]
@@ -30,11 +34,11 @@ def qini_score(y_true, uplift_score, treatment):
     
     # Thêm điểm (0,0) vào đầu
     curve = np.concatenate(([0], curve))
-    x = np.arange(len(curve))
+    x_axis = np.arange(len(curve))
     
     # 4. Tính diện tích dưới đường cong (Area Under Curve)
-    area = auc(x, curve)
+    area = auc(x_axis, curve)
     
     # 5. Trừ đi diện tích đường ngẫu nhiên (Random Line) để chuẩn hóa
     random_area = (len(curve) * curve[-1]) / 2
-    return area - random_area
+    return area, (area - random_area), x_axis, curve
