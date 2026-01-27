@@ -201,7 +201,8 @@ class TwoStageUpliftLoss(Loss, Callback):
 # --- CLASS 4: QUẢN LÝ VIỆC CHIA NHÁNH CÂY ---
 class MultiTaskTargetSplitter(SingleSplitter):
     """
-    Bộ tách mục tiêu đa nhiệm[cite: 187].
+    Split Multi Targets
+    Giúp model học cả Outcome và Uplift cùng lúc
     Đảm bảo cây quyết định biết cách xử lý output có cấu trúc [Control, Treat, Uplift].
     """
     def before_iteration(self, build_info):
@@ -256,7 +257,7 @@ class TwoStageGradientBoostingUpliftClassifier(GradientBoostingClassifier):
             ensemble_weight=uplift_ensemble_weight
         )
         
-        # Cấu hình bộ tách đa nhiệm
+        # Multi Task Target Splitter
         self.multi_task_splitter = MultiTaskTargetSplitter()
         
         super().__init__(
