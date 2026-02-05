@@ -225,6 +225,7 @@ class MultiTaskTargetSplitter(SingleSplitter):
 
 class StochasticFeatureSketch(RandomSamplingSketch):
     """
+    Dùng để tạo thêm các tree mới.
     Lớp bổ trợ để lấy mẫu ngẫu nhiên (Stochastic) giúp giảm Overfitting.
     """
     def before_iteration(self, build_info):

@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.metrics import auc
 
-def qini_score(y_true, uplift_score, treatment):
+def qini_score(y_true, uplift_score, treatment, normalized=True):
     '''
     returns:
     
@@ -39,6 +39,12 @@ def qini_score(y_true, uplift_score, treatment):
     # 4. Tính diện tích dưới đường cong (Area Under Curve)
     area = auc(x_axis, curve)
     
-    # 5. Trừ đi diện tích đường ngẫu nhiên (Random Line) để chuẩn hóa
+    # 5. Trừ đi diện tích đường ngẫu nhiên (Random Line)
     random_area = (len(curve) * curve[-1]) / 2
-    return area, (area - random_area), x_axis, curve
+    
+    better_than_random = area - random_area
+    
+    if normalized:
+        area = area / len(y_true) ** 2
+        better_than_random = better_than_random / len(y_true) ** 2
+    return area, better_than_random
